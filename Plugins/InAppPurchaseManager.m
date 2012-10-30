@@ -85,7 +85,7 @@
 	}
 
     if ([SKPaymentQueue canMakePayments]){
-        
+        NSLog(@"Can make payments");
         SKMutablePayment *payment = [SKMutablePayment paymentWithProductIdentifier:[arguments objectAtIndex:0]];
         
         if([arguments count] > 1) {
@@ -97,7 +97,7 @@
         [[SKPaymentQueue defaultQueue] addPayment:payment];
         
     }else{
-        
+        NSLog(@"Cannot make payments");
         NSArray *callbackArgs = [NSArray arrayWithObjects:
                                  @"PaymentTransactionStateFailed",
                                  [NSNumber numberWithInt:-99999],
