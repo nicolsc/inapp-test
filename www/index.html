@@ -1,0 +1,689 @@
+<html>
+  <head>
+  <style>
+  html,body { background-color:black; }
+  </style>
+       <script src="./js/applicationPreferences.js"></script>
+      <script src="./js/InAppPurchaseManager.js"></script>
+      <style type="text/css">
+          #test-inapp{
+              position:absolute;
+              top:10px;
+              left:10px;
+              width:200px;
+              height:50px;
+              z-index:25;
+              background-color:#a0a0a0;
+          }
+        </style>
+              <meta charset="UTF-8">
+                  
+                  <title></title>
+                  
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+                      <meta name="apple-mobile-web-app-capable" content="yes">
+                          <meta name="apple-mobile-web-app-status-bar-style" content="black">
+                              
+                              <style type="text/css" media="screen">
+                                  body, html {
+                                      height: 100%;
+                                      padding: 0;
+                                      margin: 0;
+                                      overflow: hidden;
+                                  }
+                                  
+                                  body {
+                                      background: #000 url(data:image/gif;base64,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) no-repeat center center;
+                                  }
+                                  
+                                  #container {
+                                      display: none;
+                                  }
+                                  </style>
+                              <style type="text/css">
+                                  /**
+                                   *
+                                   * Main container
+                                   *
+                                   */
+                                  #addToHomeScreen {
+                                      z-index:9999;
+                                      -webkit-user-select:none;
+                                      -webkit-box-sizing:border-box;
+                                      width:240px;
+                                      font-size:15px;
+                                      padding:12px 14px;
+                                      text-align:left;
+                                      font-family:helvetica;
+                                      background-image:-webkit-gradient(linear,0 0,0 100%,color-stop(0,#fff),color-stop(0.02,#eee),color-stop(0.98,#ccc),color-stop(1,#a3a3a3));
+                                      border:1px solid #505050;
+                                      -webkit-border-radius:8px;
+                                      -webkit-background-clip:padding-box;
+                                      color:#333;
+                                      text-shadow:0 1px 0 rgba(255,255,255,0.75);
+                                      line-height:130%;
+                                      -webkit-box-shadow:0 0 4px rgba(0,0,0,0.5);
+                                  }
+                                  
+                                  #addToHomeScreen.addToHomeIpad {
+                                      width:268px;
+                                      font-size:18px;
+                                      padding:14px;
+                                  }
+                                  
+                                  /**
+                                   *
+                                   * The 'wide' class is added when the popup contains the touch icon
+                                   *
+                                   */
+                                  #addToHomeScreen.addToHomeWide {
+                                      width:296px;
+                                  }
+                                  
+                                  #addToHomeScreen.addToHomeIpad.addToHomeWide {
+                                      width:320px;
+                                      font-size:18px;
+                                      padding:14px;
+                                  }
+                                  
+                                  /**
+                                   *
+                                   * The balloon arrow
+                                   *
+                                   */
+                                  #addToHomeScreen .addToHomeArrow {
+                                      position:absolute;
+                                      background-image:-webkit-gradient(linear,0 0,100% 100%,color-stop(0,rgba(204,204,204,0)),color-stop(0.4,rgba(204,204,204,0)),color-stop(0.4,#ccc));
+                                      border-width:0 1px 1px 0;
+                                      border-style:solid;
+                                      border-color:#505050;
+                                      width:16px; height:16px;
+                                      -webkit-transform:rotateZ(45deg);
+                                      bottom:-9px; left:50%;
+                                      margin-left:-8px;
+                                      -webkit-box-shadow:inset -1px -1px 0 #a9a9a9;
+                                      -webkit-border-bottom-right-radius:2px;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * The balloon arrow for iPad
+                                   *
+                                   */
+                                  #addToHomeScreen.addToHomeIpad .addToHomeArrow {
+                                      -webkit-transform:rotateZ(-135deg);
+                                      background-image:-webkit-gradient(linear,0 0,100% 100%,color-stop(0,rgba(238,238,238,0)),color-stop(0.4,rgba(238,238,238,0)),color-stop(0.4,#eee));
+                                      -webkit-box-shadow:inset -1px -1px 0 #fff;
+                                      top:-9px; bottom:auto; left:50%;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * Close button
+                                   *
+                                   */
+                                  #addToHomeScreen .addToHomeClose {
+                                      -webkit-box-sizing:border-box;
+                                      position:absolute;
+                                      right:4px;
+                                      top:4px;
+                                      width:18px;
+                                      height:18px; line-height:14px;
+                                      text-align:center;
+                                      text-indent:1px;
+                                      -webkit-border-radius:9px;
+                                      background:rgba(0,0,0,0.12);
+                                      color:#707070;
+                                      -webkit-box-shadow:0 1px 0 #fff;
+                                      font-size:16px;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * The '+' icon, displayed only on iOS < 4.2
+                                   *
+                                   */
+                                  #addToHomeScreen .addToHomePlus {
+                                      font-weight:bold;
+                                      font-size:1.3em;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * The 'share' icon, displayed only on iOS >= 4.2
+                                   *
+                                   */
+                                  #addToHomeScreen .addToHomeShare {
+                                      display:inline-block;
+                                      width:18px;
+                                      height:15px;
+                                      background-repeat:no-repeat;
+                                      background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAPCAQAAABDj1eZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUdJREFUKFNtkLtLw1AYxS/qJLhXVKr2ZRulUNtiqgSb3CziICI6ucTFVYcOnaQOFRwUnNTRwUWXgpP/QdHNUEQUHGxofYBTlRs83iZNjKTncOGe7/vx3QchXUWn6FL3jhfKUdCCr5zuifV5oDiHQM+c+CIhiiCSWNu08iq9oHXKLAiqrgR4UXqlOEYZt++ExEL0wW7+OW0G10muLv9gmqfe5FAWKmTMYQYiFL7PYwyLOD8lSjNh2gdnPzMII4QUBxc4OothbAF7GCBKQ0YbSWyPQsIhqvetS+y0ygGMo/KFZfviDvR4AhwgZU9dGYnA0J/6ndc15i3ouYIMcVVUcEXIoOxCeRCfwP8sXBSdjtpUv/1QW+K16kCCIUC4id9Fa0JtkluwVkSfqPL6RwfSDA0aNlx7k/bWgViB7bMS2/1vk5sdsZLN/ALSuL3tylO4RAAAAABJRU5ErkJggg==);
+                                      background-size:18px 15px;
+                                      text-indent:-9999em;
+                                      overflow:hidden;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * The touch icon (if available)
+                                   *
+                                   */
+                                  #addToHomeScreen .addToHomeTouchIcon {
+                                      display:block;
+                                      float:left;
+                                      -webkit-border-radius:6px;
+                                      -webkit-box-shadow:0 1px 3px rgba(0,0,0,0.5),
+                                      inset 0 0 2px rgba(255,255,255,0.9);
+                                      background-repeat:no-repeat;
+                                      width:57px; height:57px;
+                                      -webkit-background-size:57px 57px;
+                                      margin:0 12px 0 0;
+                                      border:1px solid #333;
+                                      -webkit-background-clip:padding-box;
+                                  }
+                                  
+                                  
+                                  /**
+                                   *
+                                   * The 'share' icon for retina display
+                                   *
+                                   */
+                                  @media all and (-webkit-min-device-pixel-ratio: 2) {
+                                      #addToHomeScreen .addToHomeShare {
+                                          background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAQAAADu6HTYAAADPElEQVR4Xq3TX2gcRRzA8e/M7mVv2+TSNpc/TZtrY6jUGqgaSAmEChKLrYK0YH0RFC2CSCkEfCghiKU04J8qNigq6os+iQV98MHWFwVBrQQRWs21lBw5cw3NNb1/udu72RGG5Y77IzXW77D7sAwf5scyYoL6BGXSDKFZwaGpLvIUaeoCkvX1MmsM0Ny6oRSQYOLuIS+YZOpfQdqslpUxcZrzTVAz4qPwW2O3CeIwC/RSzeY6Ow1QhUrkr+YOWfEKDkEP8Rij7CHKJmrFSDHBdwGEE5wiGChPN+PnT8VdRtEIl1d4gRj/1EVe5ZSBKGh8iqQpo/Fo5+3C/gz0MYg4zgwbqday1/Q4B8BGQ45d/Hi54lakCrU5obOcidJpu1+Lg9whjabyaOYLnrIBFFaRD+xe2ybMDWY66GmP/WA9cGfGp0CWhy0wkMN8inepFiH2rV1j0NQSNQbFLRQnS8/8YSDBBpadfv4CYDub2fmeHDNAsL1MBWUel0iA+Xik6eHcyvD3vAMSU1TGuA/YRS+dD7ovCQN43GKRFCU20Kd3V/avDVVyAZ5niTEuLA5/zBGWg9EEEhfJKN200Tat8CmRAQb9+wv7soPlHt2tQorsz1uPbr0HTY4sJwrH47zJZwABBAKLMBoQXepwgTwdHCo+fXMkQ4lrxEmQ5AaXipPqDY9V2vn09tgvTPI71EEGYxM+/uMJLJ4svpgaWGKOi/xKgmqLSUGSUd5f2vIVJ/CgBaTIUsZ7ZBsn0+NzfMOXLFCXQyTcybN6ep5ZZgUOHn7jpfUpsZshdugPGf+E5zjbyHTSRyQ8xfRPPM/s63RHeuknSoT22mjmmnAOIMkUZ6D1xSfPPAfd1WFKM3sO2CMaHx8M1NjnXKHaAGGkOW0C02WeYHUz4qMtx+w5gUDS8NckYe5lHsMYwCZEPyEEmjLDZFmAS7CDviMdxyTkMNVBKEmYLvbiQQBIBBbCQG04bGQvFWz6CfsCQLWCigILFwcfkGYBiOpbYuOizTAyYyDdCtrGaRG1LCkIgMYEFhI0WqQZoSlbGRyHKe4qOx7iv2bVQW9dp4dlM/x6kmwnWQcd/Q3FCqwTEiT5s+6D5v/pb0SSHyg7uhMWAAAAAElFTkSuQmCC);
+                                      }
+                                  }
+                                  
+                                  </style>
+                              <link rel="apple-touch-startup-image" href="joshfirefactory_splashscreens/splash-ios-640-1136.png" media="screen and (max-device-width: 480px) and (min-device-height: 961px) and (-webkit-min-device-pixel-ratio: 1.1)" />
+                              <link rel="apple-touch-startup-image" href="joshfirefactory_splashscreens/splash-ios-640-960.png" media="screen and (max-device-width: 480px) and (max-device-height: 960px) and (-webkit-min-device-pixel-ratio: 1.1)" />
+                          <link rel="apple-touch-startup-image" href="joshfirefactory_splashscreens/splash-ios-320-480.png"  /></head>
+          
+          <body class="device-phone">
+              <div id="container">
+                  <header>
+                      <h1><span id="title">&nbsp;</span></h1>
+                      <span>&nbsp;</span>
+                      <a href="#" id="back">Back</a>
+                      <a href="#" id="refresh">Refresh</a>
+                  </header>
+                  
+                  <div id="viewport">
+                      <div id="cards"></div>
+                  </div>
+                  
+                  <footer id="toolbar"><div>&nbsp;</div></footer>
+              </div>
+              
+              <!-- TEMPLATES SHARED BY PHONE/TABLET/DESKTOP versions -->
+              
+              <script type="text/template" id="template-nodata">
+                  <div class="single content nodata">
+                  No data feed to display.
+                  <br/>Consider adding a data source.
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-toolbar">
+                  <ul>
+                  <%= children %>
+                  </ul>
+                  </script>
+              
+              <script type="text/template" id="toolbar-item">
+                  <li>
+                  <a href="<%= item.linkURL %>" class="<%= (item.name.toLowerCase() === 'contact') ? 'contact' : item.icon %> section-<%= item.slug %>">
+                  <div class="indicator"><span>&nbsp;</span></div>
+                  <%= item.name %><span>&nbsp;</span>
+                  </a>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-list-view">
+                  <div class="first">
+                  <ul class="list">
+                  <%= children %>
+                  </ul>
+                  </div>
+                  <div class="loader large">&nbsp;</div>
+                  </script>
+              
+              <script type="text/template" id="template-photo-item">
+                  <li class="photo-item">
+                  <div class="figure">
+                  <a class="img fadein" href="<%= item.contentURL %>" title="<%= item.name %>" style="background-image: url(<%= imageUrl %>)">&nbsp;</a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-status-item">
+                  <li class="status-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <% if (imageUrl) { %>
+                      <div class="figure">
+                      <div class="img fadein" title="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" style="background-image: url(<%= imageUrl %>)"></div>
+                      <div class="loader"></div>
+                      </div>
+                      <% } %>
+                  <div class="right">
+                  <% if (item.author && item.author[0] && item.author[0].name) { %>
+                      <h3>
+                      <%= item.author[0].name %>
+                      <% if (item.author[0]['foaf:nick']) { %>
+                          @<%= item.author[0]['foaf:nick'] %>
+                          <% } %>
+                      </h3>
+                      <% } %>
+                  <p><%= item.name %></p>
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+                      <% } %>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-video-item">
+                  <li class="video-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <% if (imageUrl) { %>
+                      <div class="figure">
+                      <div class="img fadein" style="background-image: url(<%= imageUrl %>)"></div>
+                      <div class="loader inv"></div>
+                      </div>
+                      <% } %>
+                  <div class="right">
+                  <h3><%= item.name %></h3>
+                  </div>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-event-item">
+                  <li class="event-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <% if (item.startDate) { %>
+                      <h3>
+                      <span><%= moment(toDate(item.startDate)).calendar() %></span>
+                      </h3>
+                      <% } %>
+                  <h4><%= item.name || item.description %></h4>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-news-item">
+                  <li class="news-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <% if (imageUrl) { %>
+                      <div class="figure">
+                      <div class="img fadein" style="background-image:url(<%= imageUrl %>)"></div>
+                      <div class="loader inv"></div>
+                      </div>
+                      <% } %>
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h3>
+                      <span><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></span>
+                      </h3>
+                      <% } %>
+                  <h4><%= item.name || item.description %></h4>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              
+              <script type="text/template" id="template-sound-item">
+                  <li class="sound-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <% if (item.byArtist && item.byArtist.name) { %>
+                      <h3><%= item.byArtist.name %></h3>
+                      <% } else if (item.author && item.author.name) { %>
+                          <h3><%= item.author.name %></h3>
+                          <% } %>
+                  <h4><%= item.name %></h4>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-other-item">
+                  <li class="other-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <h4><%= item.name || item.description %></h4>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-status">
+                  <div class="body">
+                  <div class="header">
+                  <% if (imageUrl) { %>
+                      <img src="<%= imageUrl %>" alt="" />
+                      <% } %>
+                  <% if (item.author && item.author[0] && item.author[0].name) { %>
+                      <h2><%= item.author[0].name %></h2>
+                      <% } %>
+                  <% if (item.author && item.author[0] && item.author[0]['foaf:nick']) { %>
+                      <h3>@<%= item.author[0]['foaf:nick'] %></h3>
+                      <% } %>
+                  </div>
+                  <div class="arrow"><span>&nbsp;</span></div>
+                  <div class="message">
+                  <div class="cover">&nbsp;</div>
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h4><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).fromNow() %></h4>
+                      <% } %>
+                  <p><%= prettyStatus(item.name) %></p>
+                  </div>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-event">
+                  <div class="body">
+                  <% if (item.startDate && item.endDate && (item.startDate !== item.endDate)) { %>
+                      <h3><span>From <%= moment(toDate(item.startDate)).format('LLLL') %> to <%= moment(toDate(item.endDate)).format('LLLL') %></span></h3>
+                      <% } else if (item.startDate) { %>
+                          <h3><span>On <%= moment(toDate(item.startDate)).format('LLLL') %></span></h3>
+                          <% } %>
+                  <h4><%= item.name %></h4>
+                  <% if(item.description) { %>
+                      <p class="description"><%= item.description %></p>
+                      <% } %>
+                  <% if(item.location && item.location.name) { %>
+                      <p class="location"><%= item.location.name %></p>
+                      <% } %>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-news">
+                  <div class="body">
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+                      <% } %>
+                  <h4><%= item.name %></h4>
+                  <div class="article">
+                  <% if (item.articleBody) { %>
+                      <%= item.articleBody %>
+                      <% } else if (item.description) { %>
+                          <%= item.description %>
+                          <% } %>
+                  </div>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-product">
+                  <div class="body">
+                  <h4><%= item.name %></h4>
+                  <% if (imageUrl) { %>
+                      <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+                      <% } %>
+                  <div class="article">
+                  <% if (item.articleBody) { %>
+                      <%= item.articleBody %>
+                      <% } else if (item.description) { %>
+                          <%= item.description %>
+                          <% } %>
+                  </div>
+                  
+                  <% if (item.offers && item.offers[0] && item.offers[0].price) { %>
+                      <div class="offer">Price: <%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></div>
+                      <% } %>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-photo">
+                  <div class="body">
+                  <h4><%= item.name %></h4>
+                  <% if (imageUrl) { %>
+                      <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+                      <% } %>
+                  <div class="article">
+                  <% if (item.articleBody) { %>
+                      <%= item.articleBody %>
+                      <% } else if (item.description) { %>
+                          <%= item.description %>
+                          <% } %>
+                  </div>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-video">
+                  <div class="media" style="height:<%= media.metadata.height %>px">
+                  <%= media.html %>
+                  </div>
+                  <div class="body">
+                  <div class="wrapper" style="height:<%= height - media.metadata.height %>px;position:relative">
+                  <div>
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+                      <% } %>
+                  <h4><%= item.name %></h4>
+                  <div class="article">
+                  <% if(item.description) { %>
+                      <p><%= item.description %></p>
+                      <% } %>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  </script>
+              
+              <script type="text/template" id="template-other">
+                  <div class="body">
+                  <h4><%= item.name %></h4>
+                  <% if (imageUrl) { %>
+                      <div class="center"><img src="<%= imageUrl %>" alt="" /></div>
+                      <% } %>
+                  <div class="article">
+                  <% if (item.articleBody) { %>
+                      <%= item.articleBody %>
+                      <% } else if (item.description) { %>
+                          <%= item.description %>
+                          <% } %>
+                  </div>
+                  </div>
+                  </script>
+              
+              <!-- TEMPLATES SHARED BY ALL VERSIONS FOR SPOT -->
+              
+              <script type="text/template" id="template-contact-index">
+                  <div class="body"><%= textContent %></div>
+                  </script>
+              
+              <script type="text/template" id="template-contact-map">
+                  <div class="google-map"></div>
+                  </script>
+              
+              <script type="text/template" id="template-map-overlay">
+                  <p class="map-overlay"><%= address %></p>
+                  </script>
+              
+              <!-- TEMPLATES SPECIFIC TO THIS VERSION -->
+              
+              <script type="text/template" id="template-product-item">
+                  <li class="product-item">
+                  <div>
+                  <a href="#<%= section.slug %>/<%= offset %>">
+                  <div>
+                  <% if (imageUrl) { %>
+                      <img src="<%= imageUrl %>" alt="<%= (item.author && item.author[0] ? item.author[0].name : '') %>" />
+                      <% } %>
+                  <h4>
+                  <%= item.name %>
+                  <% if (item.offers && item.offers[0] && item.offers[0].price) {  %>
+                      <span class="offer"><%= (item.offers[0].priceCurrency === 'EUR') ? '€' : ((item.offers[0].priceCurrency === 'GBP') ? '₤' : '$') %><%= item.offers[0].price %></span>
+                      <% } %>
+                  </h4>
+                  </div>
+                  </a>
+                  </div>
+                  </li>
+                  </script>
+              
+              <script type="text/template" id="template-sound">
+                  <div class="body">
+                  <% if (item.datePublished || item.uploadDate || item.dateCreated) { %>
+                      <h3><%= moment(toDate(item.datePublished || item.uploadDate || item.dateCreated)).format('LLLL') %></h3>
+                      <% } %>
+                  <h4>
+                  <%= item.name %>
+                  <% if (item.byArtist && item.byArtist.name) { %> by <%= item.byArtist.name %>
+                      <% } else if (item.author && item.author.name) { %> by <%= item.author.name %><% } %>
+                  </h4>
+                  <% if(item.thumbnail && item.thumbnail.length) { %>
+                      <img src="<%= item.thumbnail[0].contentURL %>" />
+                      <% } %>
+                  <div class="media"><%= media.html %></div>
+                  <% if(item.description) { %>
+                      <p><%= item.description %></p>
+                      <% } %>
+                  </div>
+                  </script>
+              
+              <script type="text/javascript" data-joshfire-bootstraped src="index.phone.optimized.html.bootstrap.js"></script>
+              
+              <script>Joshfire.debug=false;</script>
+              <script type="text/javascript" src="js/todate.js"></script>
+              <script type="text/javascript" src="vendor/moment.js"></script>
+              <script type="text/javascript" src="vendor/sidjs-0.1.js"></script>
+              <script type="text/javascript" src="js/prettystatus.js"></script>
+              <script src="js/app.phone.ios.optimized.js"></script>
+
+              <script type="text/javascript">
+                  // if app icon, set "apple-touch-icon-precomposed" for webapps installed on mobile
+                  // For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: (have to be an absolute URL)
+                  if(Joshfire.factory.config.app.icon) {
+                      $("head").append('<link rel="apple-touch-icon-precomposed" href="'+ Joshfire.factory.config.app.icon.contentURL +'">')
+                  }
+                  </script>
+    <script type="text/javascript" charset="utf-8">
+          
+          /* in app purchases */
+          document.addEventListener('deviceready', function() {
+                                    console.log('ready');
+
+                                    /* Something's weird with window.plugins being undefined ...*/
+
+                                  if (!window.plugins){
+                                    window.plugins = {
+                                      inAppPurchaseManager:new window.InAppPurchaseManager(),
+                                      applicationPreferences:new window.applicationPreferences()
+                                    };
+                                  }
+            
+            window.plugins.inAppPurchaseManager.requestProductData("__productid__",
+            //success
+              function(productId, title, description, price) {
+                console.log("productId: " + productId + " title: " + title + " description: " + description + " price: " + price);
+                // verify product has already been purchases and unlock
+                var productIds1 = ["__productid__"];
+                                                                                           
+                for (var i = 0; i < productIds1.length; i++) {
+                  var productId = productIds1[i];
+                  window.plugins.applicationPreferences.get(productId, function(result) {
+                    if (result) {
+                       unlockProduct(productId);
+                       console.log("restart unlocked: " + productId);
+                    }
+                   });
+                }
+               },
+               //error
+               function(id) {
+                 console.log("Invalid product id: " + id);
+               }
+             );//end .requestProductData
+                                    
+             // unlock product : this user has already purchased this item
+            //change app display & behaviour accordingly
+             function unlockProduct(productId) {
+               console.log('unlocked: ' + productId);
+             }
+                                    
+             // unlock product after purchase
+             window.plugins.inAppPurchaseManager.onPurchased = function(transactionIdentifier, productId, transactionReceipt) {
+               console.log('purchased: ' + productId);
+               window.plugins.applicationPreferences.set(productId, true, function() {
+                  unlockProduct(productId);
+                });
+             }
+                                    
+                                    
+             // restore products
+             window.plugins.inAppPurchaseManager.onRestored = function(transactionIdentifier, productId, originalTransactionReceipt) {
+               console.log('restored: ' + productId);
+               window.plugins.applicationPreferences.set(productId, true, function() {
+                 unlockProduct(productId);
+               });
+               
+            }
+                                    
+            // onFailed
+            window.plugins.inAppPurchaseManager.onFailed = function(errno, errtext) {
+              console.log('failed: ' + errtext);
+                                    
+            }
+       }); // on device ready close
+          
+          
+          // process the confirmation dialog result
+          function onPurchaseConfirm(button) {
+            if(button == 2) {
+                window.plugins.inAppPurchaseManager.restoreCompletedTransactions();
+              }
+          }
+          
+          // Show a custom confirmation dialog
+          function showConfirm() {
+
+              navigator.notification.confirm(
+                                             'Restaurer vos achats ?',  // message
+                                             onPurchaseConfirm,               // callback to invoke with index of button pressed
+                                             'Restaurer',          // title
+                                             'Annuler, OK'            // buttonLabels
+                                             );
+              
+          }
+          
+          //Request a purchase
+        function requestPurchase(productId){
+          window.plugins.inAppPurchaseManager.makePurchase(productId, 1);
+        }
+        
+          </script>
+      <div id="test-inapp">
+          <button onclick="showConfirm(); return false;" id="restore-purchases-btn">Restaurer</button>
+            <button onClick="requestPurchase('__productid__');">Acheter</buton>
+        </div>
+
+  </body>
+  </html>
+
+  
